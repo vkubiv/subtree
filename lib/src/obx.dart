@@ -1,4 +1,5 @@
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:subtree/src/subtree_model.dart';
 
@@ -7,7 +8,7 @@ import 'reactive_block_ref.dart';
 
 abstract class ReactiveBlockRefExt extends ReactiveBlockRef {
   @override
-  T watch<T>(RxListenable<T> observable);
+  T watch<T>(ValueListenable<T> observable);
 
   Future<void> Function()? disableUntilCompleted(Future<void> Function() action);
 }
@@ -34,12 +35,12 @@ class _ObxState extends State<ObxWidget> implements ReactiveBlockRefExt {
   }
 
   @override
-  T watch<T>(RxListenable<T> observable) {
+  T watch<T>(ValueListenable<T> observable) {
     if (!_subscriptions.contains(observable)) {
       observable.addListener(_updateTree);
       _subscriptions.add(observable);
     }
-    return observable.current;
+    return observable.value;
   }
 
   @override
@@ -68,7 +69,7 @@ class _ObxState extends State<ObxWidget> implements ReactiveBlockRefExt {
     super.dispose();
   }
 
-  final _subscriptions = <RxListenable>{};
+  final _subscriptions = <ValueListenable>{};
   final _runningActions = <Function>{};
 }
 

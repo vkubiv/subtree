@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
 
-import 'reactive_block_ref.dart';
-
-class Rx<T> extends ChangeNotifier implements RxListenable<T> {
+class Rx<T> extends ChangeNotifier implements ValueListenable<T> {
   /// Creates a [Rx] that wraps this value.
   Rx(this._value);
 
@@ -18,24 +16,26 @@ class Rx<T> extends ChangeNotifier implements RxListenable<T> {
   }
 
   @override
-  T get current {
+  T get value {
     return _value;
   }
 
   void update(void Function(T value) updateFn) {
-    updateFn(current);
+    updateFn(_value);
     notifyListeners();
   }
 
   @override
-  String toString() => throw Exception("Rx is not supposed to use directly in interpolation, use ref.watch()");
+  String toString() => throw AssertionError("Rx is not supposed to use directly in interpolation, use ref.watch()");
 }
 
-class RxList<T> extends ChangeNotifier implements RxListenable<Iterable<T>> {
+class RxList<T> extends ChangeNotifier implements ValueListenable<Iterable<T>> {
   /// Creates a [RxList].
-  RxList();
+  RxList(List<T>? defaultVal) {
+    _value = defaultVal ?? [];
+  }
 
-  List<T> _value = [];
+  late List<T> _value;
 
   set value(Iterable<T> newValue) {
     if (const IterableEquality().equals(_value, newValue)) {
@@ -46,7 +46,7 @@ class RxList<T> extends ChangeNotifier implements RxListenable<Iterable<T>> {
   }
 
   @override
-  Iterable<T> get current {
+  Iterable<T> get value {
     return _value;
   }
 
@@ -56,5 +56,5 @@ class RxList<T> extends ChangeNotifier implements RxListenable<Iterable<T>> {
   }
 
   @override
-  String toString() => throw Exception("RxList is not supposed to use directly in interpolation, use ref.watch()");
+  String toString() => throw AssertionError("RxList is not supposed to use directly in interpolation, use ref.watch()");
 }

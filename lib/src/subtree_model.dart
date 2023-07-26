@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:get_it/get_it.dart';
+
+import 'container.dart';
 
 // Maybe name it SubtreeViewModel
 abstract class ISubtreeModelContainer {
@@ -7,51 +8,49 @@ abstract class ISubtreeModelContainer {
 
   A getActions<A extends Object>();
 
-  A? getTryActions<A extends Object>();
+  A getTransformer<A extends Object>();
 }
 
 class SubtreeModelContainer implements ISubtreeModelContainer {
-  late final GetIt _dependencyContainer;
-
-  SubtreeModelContainer() {
-    _dependencyContainer = GetIt.asNewInstance();
-  }
-
   S putState<S extends Object>(S state) {
-    _dependencyContainer.registerSingleton(state);
+    _states.put(state);
     return state;
   }
 
   void putActions<A extends Object>(A actions) {
-    _dependencyContainer.registerSingleton(actions);
+    _actions.put(actions);
+  }
+
+  void putTransformer<T extends Object>(T transformer) {
+    _transformers.put(transformer);
   }
 
   @override
   S getState<S extends Object>() {
-    return _dependencyContainer.get<S>();
+    return _states.get<S>();
   }
 
   @override
   A getActions<A extends Object>() {
-    return _dependencyContainer.get<A>();
+    return _actions.get<A>();
   }
 
   @override
-  A? getTryActions<A extends Object>() {
-    if (!_dependencyContainer.isRegistered()) {
-      return null;
-    }
-
-    return _dependencyContainer.get<A>();
+  A getTransformer<A extends Object>() {
+    return _transformers.get<A>();
   }
+
+  final _states = UnrestrictedContainer("State");
+  final _actions = UnrestrictedContainer("Actions");
+  final _transformers = UnrestrictedContainer("Transformers");
 }
 
 class SubtreeModelProvider extends InheritedWidget {
   const SubtreeModelProvider(this._dependenciesContainer, {super.key, required super.child});
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return true;
+  bool updateShouldNotify(covariant SubtreeModelProvider oldWidget) {
+    return _dependenciesContainer != oldWidget._dependenciesContainer;
   }
 
   static S getState<S extends Object>(BuildContext context) {
@@ -62,16 +61,18 @@ class SubtreeModelProvider extends InheritedWidget {
     return _guard(context)._dependenciesContainer.getActions<A>();
   }
 
-  static A? getTryActions<A extends Object>(BuildContext context) {
-    return _guard(context)._dependenciesContainer.getTryActions<A>();
+  static A getTransformer<A extends Object>(BuildContext context) {
+    return _guard(context)._dependenciesContainer.getTransformer<A>();
   }
 
   static SubtreeModelProvider _guard(BuildContext context) {
-    final inheritElement = context.getElementForInheritedWidgetOfExactType<SubtreeModelProvider>();
-    if (inheritElement == null) {
-      throw Exception('No Dependency provider found in context');
+    final widget = context.dependOnInheritedWidgetOfExactType<SubtreeModelProvider>();
+    if (widget == null) {
+      throw AssertionError('''No SubtreeModelProvider provider found in context.\n'''
+          '''This error usually means that the widget that is intended\n'''
+          '''to be part of the subtree is not a child of ControlledSubtree widget''');
     }
-    return inheritElement.widget as SubtreeModelProvider;
+    return widget;
   }
 
   final SubtreeModelContainer _dependenciesContainer;
@@ -82,5 +83,5 @@ extension SubtreeDependencyBuildContextExtensions on BuildContext {
 
   T getActions<T extends Object>() => SubtreeModelProvider.getActions<T>(this);
 
-  T? getTryActions<T extends Object>() => SubtreeModelProvider.getTryActions<T>(this);
+  T getTransformer<T extends Object>() => SubtreeModelProvider.getTransformer<T>(this);
 }

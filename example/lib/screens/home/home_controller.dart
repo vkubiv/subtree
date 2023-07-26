@@ -11,27 +11,23 @@ class HomeRouting {
   HomeRouting({required this.goToNoteEdit, required this.goToNoteAdd});
 }
 
-class HomeController extends SubtreeController<void> implements HomeActions {
+class HomeController extends SubtreeController implements HomeActions {
+  @visibleForTesting
   final HomeState state = HomeState();
 
-  final NoteService noteService;
+  @protected
   final HomeRouting routing;
-  final Listenable dependsOnNotesChange;
 
-
-  HomeController(
-      {required this.routing, required this.noteService, required this.dependsOnNotesChange}) {
+  HomeController({required this.routing, required NoteService noteService, required Listenable refreshOnNotesChange}) {
     subtreeModel.putState(state);
     subtreeModel.putActions<HomeActions>(this);
-  }
 
-  @override
-  void onInit() {
     syncController(() async {
       state.noteItems.value = (await noteService.getAll()).map((n) => NoteItem(id: n.id, title: n.title)).toList();
-    }, [dependsOnNotesChange]);
+    }, [refreshOnNotesChange]);
   }
 
+  // Actions
   @override
   void goToNote(String noteId) {
     routing.goToNoteEdit(noteId);
@@ -41,9 +37,4 @@ class HomeController extends SubtreeController<void> implements HomeActions {
   void goToAddNote() {
     routing.goToNoteAdd();
   }
-
-  @override
-  void dispose() {}
-
-
 }

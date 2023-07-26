@@ -1,10 +1,10 @@
 name: subtree
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+homepage: https://github.com/vkubiv/subtree
 
 environment:
-  sdk: '>=2.18.4 <3.0.0'
+  sdk: '>=2.17.0 <3.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -17,6 +17,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  mockito: ^5.0.17
+  build_runner: ^2.1.1
 
 
 

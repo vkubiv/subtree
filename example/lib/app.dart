@@ -52,11 +52,10 @@ class AppRoot {
           builder: (BuildContext context, GoRouterState state) {
             final routing =
                 HomeRouting(goToNoteAdd: _NoteRoute.goToAdd(context), goToNoteEdit: _NoteRoute.goToEdit(context));
-            return ControlledSubtree<void>(
-              params: null,
+            return ControlledSubtree(
               subtree: const HomeScreen(),
               controller: () => HomeController(
-                  routing: routing, noteService: noteService, dependsOnNotesChange: noteChangeDependency),
+                  routing: routing, noteService: noteService, refreshOnNotesChange: noteChangeDependency),
             );
           },
           routes: <RouteBase>[
@@ -64,13 +63,16 @@ class AppRoot {
               path: _NoteRoute.path,
               builder: (BuildContext context, GoRouterState state) {
                 final routing = EditNoteRouting(goBack: _goBackRoute(context));
+                final noteId = _NoteRoute.parseParams(state.params).noteId;
 
-                return ControlledSubtree<EditNoteParams>(
-                  params: _NoteRoute.parseParams(state.params),
-                  subtree: const EditNotePage(),
-                  controller: () => EditNoteController(
-                      routing: routing, noteService: noteService, produceNoteChange: noteChangeDependency),
-                );
+                return ControlledSubtree(
+                    subtree: const EditNotePage(),
+                    controller: () => EditNoteController(
+                        noteId: noteId,
+                        routing: routing,
+                        noteService: noteService,
+                        produceNoteChange: noteChangeDependency),
+                    deps: [noteId]);
               },
             ),
           ],

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'reactive_block_ref.dart';
 
 class ReactiveBlock implements ReactiveBlockRef {
@@ -10,12 +12,12 @@ class ReactiveBlock implements ReactiveBlockRef {
   }
 
   @override
-  T watch<T>(RxListenable<T> observable) {
+  T watch<T>(ValueListenable<T> observable) {
     if (!_subscriptions.contains(observable)) {
       observable.addListener(_runReactiveBlock);
       _subscriptions.add(observable);
     }
-    return observable.current;
+    return observable.value;
   }
 
   void dispose() {
@@ -24,6 +26,6 @@ class ReactiveBlock implements ReactiveBlockRef {
     }
   }
 
-  final _subscriptions = <RxListenable>{};
+  final _subscriptions = <ValueListenable>{};
   final void Function(ReactiveBlockRef ref) _reactiveBlockFunc;
 }

@@ -1,16 +1,12 @@
 import 'package:flutter/widgets.dart';
+import 'package:collection/collection.dart';
 
 import 'subtree_model.dart';
 import 'event_notifier.dart';
 
-abstract class SubtreeController<Params> {
+abstract class SubtreeController {
   final subtreeModel = SubtreeModelContainer();
-  late Params arguments;
 
-  void onInit();
-
-  @mustCallSuper
-  void onUpdate(Params oldArguments) {}
 
   @mustCallSuper
   void dispose() {
@@ -32,41 +28,38 @@ abstract class SubtreeController<Params> {
   final _subscriptions = <EventSubscription>[];
 }
 
-typedef SubtreeControllerBuilder<Params> = SubtreeController<Params> Function();
+typedef SubtreeControllerBuilder = SubtreeController Function();
 
-class ControlledSubtree<Params> extends StatefulWidget {
+class ControlledSubtree extends StatefulWidget {
   final Widget subtree;
-  final Params params;
-  final SubtreeControllerBuilder<Params> controller;
+  final List<Object?> deps;
+  final SubtreeControllerBuilder controller;
 
-  const ControlledSubtree({Key? key, required this.subtree, required this.controller, required this.params})
+  const ControlledSubtree({Key? key, required this.subtree, required this.controller, this.deps = const []})
       : super(key: key);
 
   @override
-  State<ControlledSubtree> createState() => _ControlledSubtreeState<Params>();
+  State<ControlledSubtree> createState() => _ControlledSubtreeState();
 }
 
-class _ControlledSubtreeState<Params> extends State<ControlledSubtree<Params>> {
-  SubtreeController<Params>? _controller;
+class _ControlledSubtreeState extends State<ControlledSubtree> {
+  SubtreeController? _controller;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _controller?.dispose();
-
     _controller = widget.controller();
-
-    _controller!.arguments = widget.params;
-    _controller!.onInit();
   }
 
   @override
-  void didUpdateWidget(covariant ControlledSubtree<Params> oldWidget) {
+  void didUpdateWidget(covariant ControlledSubtree oldWidget) {
     super.didUpdateWidget(oldWidget);
+    final eq = const ListEquality().equals;
 
-    if (widget.params != oldWidget.params) {
-      _controller!.arguments = widget.params;
-      _controller!.onUpdate(oldWidget.params);
+    if (!eq(widget.deps, oldWidget.deps)) {
+      _controller?.dispose();
+      _controller = widget.controller();
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:example/domain_layer/note_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:subtree/subtree.dart';
 
 import 'model.dart';
@@ -9,21 +10,29 @@ class EditNoteRouting {
   EditNoteRouting({required this.goBack});
 }
 
-class EditNoteController extends SubtreeController<EditNoteParams> implements EditNoteActions {
+class EditNoteController extends SubtreeController implements EditNoteActions {
+  @visibleForTesting
   final state = EditNoteState();
+
+  @protected
+  final String? noteId;
+
+  @protected
   final EditNoteRouting routing;
+  @protected
   final NoteService noteService;
+  @protected
   final EventNotifier produceNoteChange;
 
-  EditNoteController({required this.noteService, required this.routing, required this.produceNoteChange}) {
+  EditNoteController(
+      {required this.noteId, required this.noteService, required this.routing, required this.produceNoteChange}) {
     subtreeModel.putState(state);
     subtreeModel.putActions<EditNoteActions>(this);
+
+    init();
   }
 
-  @override
-  void onInit() async {
-    final noteId = arguments.noteId;
-
+  void init() async {
     if (noteId != null) {
       await noteService.getNote(noteId!);
     }
@@ -33,7 +42,7 @@ class EditNoteController extends SubtreeController<EditNoteParams> implements Ed
 
   @override
   Future<void> save() async {
-    final noteId = arguments.noteId;
+    final noteId = this.noteId;
     if (noteId != null) {
       final note = Note(id: noteId, title: state.titleText.text, content: state.contentText.text);
       await noteService.updateNote(note);
@@ -46,6 +55,7 @@ class EditNoteController extends SubtreeController<EditNoteParams> implements Ed
 
   @override
   void dispose() {
+    super.dispose();
     state.titleText.dispose();
     state.contentText.dispose();
   }
