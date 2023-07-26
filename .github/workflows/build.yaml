@@ -1,0 +1,50 @@
+name: Build
+
+on:
+  pull_request:
+    paths-ignore:
+      - "**.md"
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+  schedule:
+    # runs the CI everyday at 10AM
+    - cron: "0 10 * * *"
+
+jobs:
+  flutter:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        channel:
+          - master
+          - dev
+          - beta
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2.7.1
+        with:
+          channel: ${{ matrix.channel }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate mocks
+        run: flutter test --coverage
+
+      - run: dart format lib test --set-exit-if-changed --line-length=120
+        if: matrix.channel == 'main'
+
+      - run: flutter analyze
+
+      - run: flutter test --no-pub --coverage
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
