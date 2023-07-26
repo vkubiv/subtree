@@ -17,25 +17,17 @@ jobs:
   flutter:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        channel:
-          - master
-          - dev
-          - beta
 
     steps:
       - uses: actions/checkout@v3
 
-      - uses: subosito/flutter-action@v2.7.1
-        with:
-          channel: ${{ matrix.channel }}
+      - uses: subosito/flutter-action@v2
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Generate mocks
-        run: flutter test --coverage
+        run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - run: dart format lib test --set-exit-if-changed --line-length=120
         if: matrix.channel == 'main'
