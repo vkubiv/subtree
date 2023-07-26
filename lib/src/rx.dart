@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:collection/collection.dart';
+
+import 'util.dart';
 
 class Rx<T> extends ChangeNotifier implements ValueListenable<T> {
   /// Creates a [Rx] that wraps this value.
@@ -38,7 +39,7 @@ class RxList<T> extends ChangeNotifier implements ValueListenable<Iterable<T>> {
   late List<T> _value;
 
   set value(Iterable<T> newValue) {
-    if (const IterableEquality().equals(_value, newValue)) {
+    if (isIterableEquals(_value, newValue)) {
       return;
     }
     _value = List.of(newValue);

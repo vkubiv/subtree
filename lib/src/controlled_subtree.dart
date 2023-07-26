@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:collection/collection.dart';
 
 import 'subtree_model.dart';
 import 'event_notifier.dart';
+import 'util.dart';
 
 abstract class SubtreeController {
   final subtreeModel = SubtreeModelContainer();
@@ -55,9 +55,8 @@ class _ControlledSubtreeState extends State<ControlledSubtree> {
   @override
   void didUpdateWidget(covariant ControlledSubtree oldWidget) {
     super.didUpdateWidget(oldWidget);
-    final eq = const ListEquality().equals;
 
-    if (!eq(widget.deps, oldWidget.deps)) {
+    if (!isListsEquals(widget.deps, oldWidget.deps)) {
       _controller?.dispose();
       _controller = widget.controller();
     }
