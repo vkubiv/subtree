@@ -1,3 +1,7 @@
+
+<a href="https://github.com/vkubiv/subtree/actions"><img src="https://github.com/vkubiv/subtree/workflows/Build/badge.svg" alt="Build Status"></a>
+[![codecov](https://codecov.io/gh/vkubiv/subtree/branch/main/graph/badge.svg)](https://codecov.io/gh/vkubiv/subtree)
+
 <!--
 This README describes the package. If you publish this package to pub.dev,
 this README's contents appear on the landing page for your package.
