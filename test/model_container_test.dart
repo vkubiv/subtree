@@ -73,21 +73,21 @@ void main() {
     final subtreeModel = SubtreeModelContainer();
 
     expect(
-            () => subtreeModel.getState<TestState>(),
+        () => subtreeModel.getState<TestState>(),
         throwsA(predicate((e) =>
-        e is AssertionError &&
+            e is AssertionError &&
             e.message ==
                 "State of type TestState is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
     expect(
-            () => subtreeModel.getActions<TestActions>(),
+        () => subtreeModel.getActions<TestActions>(),
         throwsA(predicate((e) =>
-        e is AssertionError &&
+            e is AssertionError &&
             e.message ==
                 "Actions of type TestActions is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
     expect(
-            () => subtreeModel.getTransformer<NumberFormatter>(),
+        () => subtreeModel.getTransformer<NumberFormatter>(),
         throwsA(predicate((e) =>
-        e is AssertionError &&
+            e is AssertionError &&
             e.message ==
                 "Transformers of type NumberFormatter is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
   });

@@ -1,10 +1,8 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:subtree/src/subtree_model.dart';
 
 import 'reactive_block_ref.dart';
-
 
 abstract class ReactiveBlockRefExt extends ReactiveBlockRef {
   @override
@@ -72,7 +70,6 @@ class _ObxState extends State<ObxWidget> implements ReactiveBlockRefExt {
   final _subscriptions = <ValueListenable>{};
   final _runningActions = <Function>{};
 }
-
 
 class Obx extends ObxWidget {
   final Widget Function(ReactiveBlockRefExt ref) _builder;

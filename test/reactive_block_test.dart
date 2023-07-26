@@ -19,6 +19,5 @@ void main() {
     rBlock.dispose();
     valNotifier.value = "2";
     expect(value, "1");
-
   });
 }

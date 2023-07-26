@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 
 class EventNotifier extends ChangeNotifier {
@@ -36,4 +35,3 @@ EventSubscription subscribe(void Function() syncFunc, List<Listenable> on) {
 
   return EventSubscription(syncFunc, on);
 }
-

@@ -7,7 +7,6 @@ import 'util.dart';
 abstract class SubtreeController {
   final subtreeModel = SubtreeModelContainer();
 
-
   @mustCallSuper
   void dispose() {
     for (final sub in _subscriptions) {

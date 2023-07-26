@@ -30,10 +30,11 @@ void main() {
     expect(rx.value, '4');
     expect(listenerCalledCount, 1);
 
-    expect(() => rx.toString(), throwsA(predicate((e) =>
-    e is AssertionError &&
-        e.message ==
-            "Rx is not supposed to use directly in interpolation, use ref.watch()")));
+    expect(
+        () => rx.toString(),
+        throwsA(predicate((e) =>
+            e is AssertionError &&
+            e.message == "Rx is not supposed to use directly in interpolation, use ref.watch()")));
   });
 
   test("Rx update success", () {
@@ -76,16 +77,16 @@ void main() {
     expect(rx.value, ['1']);
     expect(listenerCalledCount, 1);
 
-
     rx.update((obj) {
       obj[0] = '2';
     });
     expect(rx.value, ['2']);
     expect(listenerCalledCount, 2);
 
-    expect(() => rx.toString(), throwsA(predicate((e) =>
-    e is AssertionError &&
-        e.message ==
-            "RxList is not supposed to use directly in interpolation, use ref.watch()")));
+    expect(
+        () => rx.toString(),
+        throwsA(predicate((e) =>
+            e is AssertionError &&
+            e.message == "RxList is not supposed to use directly in interpolation, use ref.watch()")));
   });
 }
