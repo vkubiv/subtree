@@ -9,6 +9,7 @@ Subtree is a state manager for those who like BLoC but don't like BLoC verbosity
 * Subtree separates state injection from state observing mechanism.
 * Providing a compact mechanism for observing state instead of verbose Builder concept.
 * Events (Actions) are not separate objects, just regular function calls, which hugely reduce boilerplate.
+* Don't try go into all application layers. Stays only on presentation layer.
 
 ```dart
 class ExamplePageState {

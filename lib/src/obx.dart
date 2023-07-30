@@ -88,3 +88,17 @@ class StateObx<State extends Object> extends ObxWidget {
   @override
   Widget build(BuildContext context, ReactiveBlockRefExt ref) => _builder(context.getState<State>(), ref);
 }
+
+class ObxListener extends ObxWidget {
+  final Widget child;
+
+  final void Function(ReactiveBlockRef ref) listener;
+
+  const ObxListener({super.key, required this.listener, required this.child});
+
+  @override
+  Widget build(BuildContext context, ReactiveBlockRefExt ref) {
+    listener(ref);
+    return child;
+  }
+}
