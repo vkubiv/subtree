@@ -25,6 +25,10 @@ void main() {
     expect(rx.value, '2');
     expect(listenerCalledCount, 1);
 
+    rx.value = '2';
+    expect(rx.value, '2');
+    expect(listenerCalledCount, 1);
+
     rx.removeListener(listener);
     rx.value = '4';
     expect(rx.value, '4');
@@ -88,5 +92,38 @@ void main() {
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message == "RxList is not supposed to use directly in interpolation, use ref.watch()")));
+  });
+
+  test("RxEvent success", () {
+    final rxEvent = RxEvent<String>();
+
+    expect(rxEvent.value, null);
+    rxEvent.emit('1');
+    expect(rxEvent.value, '1');
+
+    int listenerCalledCount = 0;
+    void listener() {
+      listenerCalledCount++;
+    }
+
+    rxEvent.addListener(listener);
+    rxEvent.emit('2');
+    expect(rxEvent.value, '2');
+    expect(listenerCalledCount, 1);
+
+    rxEvent.emit('2');
+    expect(rxEvent.value, '2');
+    expect(listenerCalledCount, 2);
+
+    rxEvent.removeListener(listener);
+    rxEvent.emit('4');
+    expect(rxEvent.value, '4');
+    expect(listenerCalledCount, 2);
+
+    expect(
+            () => rxEvent.toString(),
+        throwsA(predicate((e) =>
+        e is AssertionError &&
+            e.message == "RxEvent is not supposed to use directly in interpolation, use RxEventListener")));
   });
 }

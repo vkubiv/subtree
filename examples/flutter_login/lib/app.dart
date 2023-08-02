@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_login/domain_layer/auth_service.dart';
 import 'package:flutter_login/domain_layer/services.dart';
 import 'package:flutter_login/home/home.dart';
 import 'package:flutter_login/home/home_controller.dart';
@@ -8,7 +7,9 @@ import 'package:flutter_login/splash/splash.dart';
 import 'package:subtree/subtree.dart';
 
 class AppWidget extends StatefulWidget {
-  const AppWidget({super.key});
+  final Future<Services> Function() createServices;
+
+  const AppWidget({super.key, required this.createServices});
 
   @override
   State<AppWidget> createState() => _AppWidgetState();
@@ -22,25 +23,25 @@ class _AppWidgetState extends State<AppWidget> {
     return ControlledSubtree(
         subtree: MaterialApp(
           navigatorKey: _navigatorKey,
-          onGenerateRoute: (_) => SplashPage.route(),
+          onGenerateRoute: (_) => AppController._splashPageRoute(),
         ),
-        controller: () => AppRouter(_navigatorKey));
+        controller: (context) => AppController(_navigatorKey, widget.createServices));
   }
 }
 
-class AppRouter extends SubtreeController {
+class AppController extends SubtreeController {
   final GlobalKey<NavigatorState> _navigatorKey;
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
   late final Services services;
 
-  AppRouter(this._navigatorKey) {
-    _setupApp();
+  AppController(this._navigatorKey, Future<Services> Function() createSrvs) {
+    _setupApp(createSrvs);
   }
 
-  void _setupApp() async {
-    services = await createServices();
+  void _setupApp(Future<Services> Function() createSrvs) async {
+    services = await createSrvs();
 
     services.authService.onLogout.listen((event) {
       _pushAsRoot(_loginRoute());
@@ -69,7 +70,8 @@ class AppRouter extends SubtreeController {
     return MaterialPageRoute<void>(
         builder: (_) => ControlledSubtree(
               subtree: const HomePage(),
-              controller: () => HomeController(userService: services.userService, authService: services.authService),
+              controller: (context) =>
+                  HomeController(userService: services.userService, authService: services.authService),
             ));
   }
 
@@ -77,6 +79,10 @@ class AppRouter extends SubtreeController {
     return MaterialPageRoute<void>(
         builder: (_) => ControlledSubtree(
             subtree: const LoginPage(),
-            controller: () => LoginController(authService: services.authService, onLoggedIn: _onLoggedIn)));
+            controller: (context) => LoginController(authService: services.authService, onLoggedIn: _onLoggedIn)));
+  }
+
+  static Route<void> _splashPageRoute() {
+    return MaterialPageRoute<void>(builder: (_) => const SplashPage());
   }
 }

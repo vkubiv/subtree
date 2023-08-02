@@ -46,6 +46,7 @@ class LoginController extends SubtreeController implements LoginActions {
         onLoggedIn();
       } catch (_) {
         state.status.value = FormzSubmissionStatus.failure;
+        state.errorEvent.emit('Authentication Failure');
       }
     }
   }

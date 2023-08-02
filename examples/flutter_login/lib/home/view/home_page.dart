@@ -12,19 +12,22 @@ class HomePage extends StatelessWidget {
     final actions = context.getActions<HomeActions>();
 
     return Scaffold(
-        appBar: AppBar(title: const Text('Home')),
+        appBar: AppBar(title: const Text('Home'), actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Logout',
+            onPressed: actions.logout,
+          ),
+        ]),
         body: Center(
-          child: ValueListenableBuilder<String?>(
-            valueListenable: state.errorMessage,
-            builder: (context, errorMessage, child) {
-              if (errorMessage != null) {
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(content: Text(errorMessage)),
-                  );
-              }
-              return child!;
+          child: EventListener<String>(
+            event: state.errorEvent,
+            listener: (context, errorMessage) {
+              ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(content: Text(errorMessage)),
+                );
             },
             child: Obx(
               (ref) {

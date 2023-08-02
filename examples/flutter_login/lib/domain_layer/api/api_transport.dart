@@ -1,13 +1,14 @@
+// coverage:ignore-file
+// Api module should be tested on integration level.
+
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 
 class ApiTransport {
-  ApiTransport({required this.baseApiUrl});
+  ApiTransport({required String baseApiUrl}) : _baseApiUrl = baseApiUrl;
 
   Dio createHttpClient() {
-    return Dio(BaseOptions(baseUrl: baseApiUrl));
+    return Dio(BaseOptions(baseUrl: _baseApiUrl));
   }
 
-  @protected
-  String baseApiUrl;
+  String _baseApiUrl;
 }

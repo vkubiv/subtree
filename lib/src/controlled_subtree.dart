@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'subtree_model.dart';
-import 'event_notifier.dart';
+import 'controller_notifier.dart';
 import 'util.dart';
 
 abstract class SubtreeController {
@@ -14,20 +14,20 @@ abstract class SubtreeController {
     }
   }
 
-  void syncController(void Function() syncFunc, List<Listenable> on) {
-    final sub = sync(syncFunc, on);
+  void sync(void Function() syncFunc, List<Listenable> on) {
+    final sub = _sync(syncFunc, on);
     _subscriptions.add(sub);
   }
 
-  void subscribeController(void Function() syncFunc, List<Listenable> on) {
-    final sub = subscribe(syncFunc, on);
+  void subscribe(void Function() syncFunc, List<Listenable> on) {
+    final sub = _subscribe(syncFunc, on);
     _subscriptions.add(sub);
   }
 
-  final _subscriptions = <EventSubscription>[];
+  final _subscriptions = <ControllerSubscription>[];
 }
 
-typedef SubtreeControllerBuilder = SubtreeController Function();
+typedef SubtreeControllerBuilder = SubtreeController Function(BuildContext context);
 
 class ControlledSubtree extends StatefulWidget {
   final Widget subtree;
@@ -43,12 +43,14 @@ class ControlledSubtree extends StatefulWidget {
 
 class _ControlledSubtreeState extends State<ControlledSubtree> {
   SubtreeController? _controller;
+  late UniqueKey _rootKey;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _controller?.dispose();
-    _controller = widget.controller();
+    _rootKey = UniqueKey();
+    _controller = widget.controller(context);
   }
 
   @override
@@ -57,7 +59,8 @@ class _ControlledSubtreeState extends State<ControlledSubtree> {
 
     if (!isListsEquals(widget.deps, oldWidget.deps)) {
       _controller?.dispose();
-      _controller = widget.controller();
+      _rootKey = UniqueKey();
+      _controller = widget.controller(context);
     }
   }
 
@@ -70,6 +73,23 @@ class _ControlledSubtreeState extends State<ControlledSubtree> {
 
   @override
   Widget build(BuildContext context) {
-    return SubtreeModelProvider(_controller!.subtreeModel, child: widget.subtree);
+    return SubtreeModelProvider(_controller!.subtreeModel, key: _rootKey, child: widget.subtree);
   }
+}
+
+ControllerSubscription _sync(void Function() syncFunc, List<Listenable> on) {
+  for (final deps in on) {
+    deps.addListener(syncFunc);
+  }
+  syncFunc();
+
+  return ControllerSubscription(syncFunc, on);
+}
+
+ControllerSubscription _subscribe(void Function() syncFunc, List<Listenable> on) {
+  for (final deps in on) {
+    deps.addListener(syncFunc);
+  }
+
+  return ControllerSubscription(syncFunc, on);
 }

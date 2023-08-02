@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:subtree/src/subtree_model.dart';
 
 import 'reactive_block_ref.dart';
+import 'rx.dart';
 
 abstract class ReactiveBlockRefExt extends ReactiveBlockRef {
   @override
@@ -89,16 +90,68 @@ class StateObx<State extends Object> extends ObxWidget {
   Widget build(BuildContext context, ReactiveBlockRefExt ref) => _builder(context.getState<State>(), ref);
 }
 
-class ObxListener extends ObxWidget {
+class EventListener<T extends Object> extends StatefulWidget {
+  const EventListener({
+    Key? key,
+    required this.event,
+    required this.listener,
+    required this.child,
+  }) : super(key: key);
+
+  final RxEvent<T> event;
+  final void Function(BuildContext context, T value) listener;
   final Widget child;
 
-  final void Function(ReactiveBlockRef ref) listener;
+  @override
+  State<EventListener> createState() => _EventListenerState<T>();
+}
 
-  const ObxListener({super.key, required this.listener, required this.child});
+class _EventListenerState<T extends Object> extends State<EventListener<T>> {
+  void _onEvent() {
+    widget.listener(context, widget.event.value!);
+  }
 
   @override
-  Widget build(BuildContext context, ReactiveBlockRefExt ref) {
-    listener(ref);
-    return child;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _unsubscribe();
+    _subscribe();
   }
+
+  @override
+  void didUpdateWidget(covariant EventListener<T> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.event != oldWidget.event) {
+      _unsubscribe();
+      _subscribe();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
+  }
+
+  void _subscribe() {
+    final event = widget.event;
+    if (!_subscriptions.contains(event)) {
+      event.addListener(_onEvent);
+      _subscriptions.add(event);
+    }
+  }
+
+  void _unsubscribe() {
+    for (var sub in _subscriptions) {
+      sub.removeListener(_onEvent);
+    }
+    _subscriptions.clear();
+  }
+
+  @override
+  void dispose() {
+    _unsubscribe();
+    super.dispose();
+  }
+
+  final _subscriptions = <RxEvent<T>>{};
 }

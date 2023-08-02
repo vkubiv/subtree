@@ -59,3 +59,23 @@ class RxList<T> extends ChangeNotifier implements ValueListenable<Iterable<T>> {
   @override
   String toString() => throw AssertionError("RxList is not supposed to use directly in interpolation, use ref.watch()");
 }
+
+class RxEvent<T> extends ChangeNotifier implements ValueListenable<T?> {
+  /// Creates a [RxEvent].
+  RxEvent();
+
+  T? _eventArgs;
+
+  void emit(T newValue) {
+    _eventArgs = newValue;
+    notifyListeners();
+  }
+
+  @override
+  T? get value {
+    return _eventArgs;
+  }
+
+  @override
+  String toString() => throw AssertionError("RxEvent is not supposed to use directly in interpolation, use RxEventListener");
+}

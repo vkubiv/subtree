@@ -1,3 +1,6 @@
+// coverage:ignore-file
+// Services integration point, can be tested only in integration tests.
+
 import 'api/api.dart';
 import 'api/api_auth_provider.dart';
 import 'auth_service.dart';

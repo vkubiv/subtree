@@ -1,31 +1,29 @@
 import 'dart:async';
 
-import 'package:meta/meta.dart';
-
 import 'api/api_auth_provider.dart';
 import 'api/auth_api.dart';
 import 'data_access/auth_dao.dart';
 
 class AuthService {
-  bool get isAuthenticated => apiAuthProvider.isAuthenticated;
+  bool get isAuthenticated => _apiAuthProvider.isAuthenticated;
 
   Stream<void> get onLogout => _onLogoutSubject.stream;
 
   AuthService({
-    required this.authApi,
-    required this.apiAuthProvider,
-    required this.authDao,
-  }) {
-    apiAuthProvider.onAuthFailed.listen((event) async {
+    required AuthApi authApi,
+    required ApiAuthProvider apiAuthProvider,
+    required AuthDao authDao,
+  }) : _authDao = authDao, _apiAuthProvider = apiAuthProvider, _authApi = authApi {
+    _apiAuthProvider.onAuthFailed.listen((event) async {
       logout();
     });
   }
 
   Future<void> init() async {
-    var authToken = await authDao.authToken;
+    var authToken = await _authDao.authToken;
 
     if (authToken != null) {
-      apiAuthProvider.setAuthToken(authToken);
+      _apiAuthProvider.setAuthToken(authToken);
     }
   }
 
@@ -33,25 +31,25 @@ class AuthService {
     final String authToken;
     final String userId;
 
-    final response = await authApi.login(login, password);
+    final response = await _authApi.login(login, password);
     authToken = response.token;
     userId = response.userId;
 
-    apiAuthProvider.setAuthToken(authToken);
-    await authDao.setAuthToken(authToken);
-    await authDao.setUserId(userId);
+    _apiAuthProvider.setAuthToken(authToken);
+    await _authDao.setAuthToken(authToken);
+    await _authDao.setUserId(userId);
   }
 
   Future<void> logout() async {
-    await authDao.deleteAuthToken();
-    apiAuthProvider.resetAuthToken();
+    await _authDao.deleteAuthToken();
+    _apiAuthProvider.resetAuthToken();
     _onLogoutSubject.sink.add(null);
   }
 
-  @protected
-  final AuthApi authApi;
-  final ApiAuthProvider apiAuthProvider;
-  final AuthDao authDao;
+  
+  final AuthApi _authApi;
+  final ApiAuthProvider _apiAuthProvider;
+  final AuthDao _authDao;
 
   final _onLogoutSubject = StreamController<void>.broadcast();
 }

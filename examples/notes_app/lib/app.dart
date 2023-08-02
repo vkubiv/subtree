@@ -43,7 +43,7 @@ class AppRoot {
   }
 
   RouterConfig<Object> linkScreens() {
-    final noteChangeDependency = EventNotifier();
+    final noteChangeDependency = ControllerNotifier();
 
     return GoRouter(
       routes: <RouteBase>[
@@ -54,7 +54,7 @@ class AppRoot {
                 HomeRouting(goToNoteAdd: _NoteRoute.goToAdd(context), goToNoteEdit: _NoteRoute.goToEdit(context));
             return ControlledSubtree(
               subtree: const HomeScreen(),
-              controller: () => HomeController(
+              controller: (context) => HomeController(
                   routing: routing, noteService: noteService, refreshOnNotesChange: noteChangeDependency),
             );
           },
@@ -67,7 +67,7 @@ class AppRoot {
 
                 return ControlledSubtree(
                     subtree: const EditNotePage(),
-                    controller: () => EditNoteController(
+                    controller: (context) => EditNoteController(
                         noteId: noteId,
                         routing: routing,
                         noteService: noteService,

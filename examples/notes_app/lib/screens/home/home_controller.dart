@@ -22,7 +22,7 @@ class HomeController extends SubtreeController implements HomeActions {
     subtreeModel.putState(state);
     subtreeModel.putActions<HomeActions>(this);
 
-    syncController(() async {
+    sync(() async {
       state.noteItems.value = (await noteService.getAll()).map((n) => NoteItem(id: n.id, title: n.title)).toList();
     }, [refreshOnNotesChange]);
   }

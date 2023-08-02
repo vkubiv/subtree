@@ -30,7 +30,7 @@ class TestController extends SubtreeController {
   TestController({required Listenable refreshOnChange, required ValueProvider valueProvider}) {
     subtreeModel.putState(state);
 
-    syncController(() {
+    sync(() {
       state.testVal.value = valueProvider.value;
     }, [refreshOnChange]);
   }
@@ -38,13 +38,13 @@ class TestController extends SubtreeController {
 
 void main() {
   testWidgets('Sync controller success', (WidgetTester tester) async {
-    final changeNotifier = EventNotifier();
+    final changeNotifier = ControllerNotifier();
     final valueProvider = ValueProvider("1");
 
     await tester.pumpWidget(MaterialApp(
         home: ControlledSubtree(
             subtree: const TestingWidget(),
-            controller: () => TestController(refreshOnChange: changeNotifier, valueProvider: valueProvider))));
+            controller: (context) => TestController(refreshOnChange: changeNotifier, valueProvider: valueProvider))));
 
     expect(find.text("0"), findsNothing);
     expect(find.text("1"), findsOneWidget);

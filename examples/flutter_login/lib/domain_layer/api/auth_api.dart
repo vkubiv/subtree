@@ -1,4 +1,6 @@
-import 'package:meta/meta.dart';
+// coverage:ignore-file
+// Api module should be tested on integration level.
+
 import 'package:dio/dio.dart';
 import 'package:uuid/uuid.dart';
 
@@ -17,21 +19,22 @@ class InvalidCredentials implements Exception {}
 class DuplicatedEmail implements Exception {}
 
 class AuthApi {
-  @protected
-  final ApiTransport apiTransport;
-  @protected
-  final bool demoMode;
+  final ApiTransport _apiTransport;
+  final bool _demoMode;
 
-  AuthApi({required this.apiTransport, required this.demoMode});
+  AuthApi({required ApiTransport apiTransport, required bool demoMode}) : _demoMode = demoMode, _apiTransport = apiTransport;
 
   Future<LoginResponse> login(String login, String password) async {
-    if (demoMode) {
+    if (_demoMode) {
+      if (password == 'fail') {
+        throw InvalidCredentials();
+      }
       return LoginResponse(token: '__demo__', userId: Uuid().v4());
     }
 
     try {
       final response =
-          await apiTransport.createHttpClient().post('/login', data: {'userName': login, 'password': password});
+          await _apiTransport.createHttpClient().post('/login', data: {'userName': login, 'password': password});
 
       print("response.data: ${response.data}");
       return LoginResponse(userId: response.data['id'].toString(), token: response.data['token'].toString());

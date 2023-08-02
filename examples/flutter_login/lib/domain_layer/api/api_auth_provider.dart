@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 
+class Unauthorized implements Exception {}
+
 class ApiAuthProvider {
   Stream<void> get onAuthFailed => _onAuthFailedSubject.stream;
 
@@ -12,6 +14,9 @@ class ApiAuthProvider {
     httpClient.interceptors.add(InterceptorsWrapper(onError: (e, handler) {
       if (e.response != null && e.response!.statusCode == 401) {
         _onAuthFailedSubject.sink.add(null);
+
+        handler.reject(
+            DioException(type: DioExceptionType.unknown, error: Unauthorized(), requestOptions: e.requestOptions));
       } else {
         handler.next(e);
       }

@@ -22,7 +22,7 @@ class EditNoteController extends SubtreeController implements EditNoteActions {
   @protected
   final NoteService noteService;
   @protected
-  final EventNotifier produceNoteChange;
+  final ControllerNotifier produceNoteChange;
 
   EditNoteController(
       {required this.noteId, required this.noteService, required this.routing, required this.produceNoteChange}) {

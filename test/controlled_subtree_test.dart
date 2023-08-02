@@ -82,7 +82,7 @@ void main() {
     final controller = TestController();
 
     await tester
-        .pumpWidget(MaterialApp(home: ControlledSubtree(subtree: const TestingWidget(), controller: () => controller)));
+        .pumpWidget(MaterialApp(home: ControlledSubtree(subtree: const TestingWidget(), controller: (context) => controller,)));
 
     expect(controller.buttonClicked, false);
 
@@ -115,7 +115,7 @@ void main() {
             valueListenable: idSwitcher,
             builder: (context, id, child) => ControlledSubtree(
                   subtree: const TestingWidgetStateObx(),
-                  controller: () => TestControllerWithArgs(id),
+                  controller: (context) => TestControllerWithArgs(id),
                   deps: [id],
                 ))));
 
@@ -126,5 +126,26 @@ void main() {
     await tester.pump();
 
     expect(find.text("__100__"), findsOneWidget);
+  });
+
+  testWidgets('Subtree on parent widget rebuild', (WidgetTester tester) async {
+    final idSwitcher = ValueNotifier<String>("1");
+
+    await tester.pumpWidget(MaterialApp(
+        home: ValueListenableBuilder<String>(
+            valueListenable: idSwitcher,
+            builder: (context, id, child) => ControlledSubtree(
+              subtree: const TestingWidgetStateObx(),
+              controller: (context) => TestControllerWithArgs(id),
+              deps: const [],
+            ))));
+
+    expect(find.text("__1__"), findsOneWidget);
+
+    idSwitcher.value = "100";
+
+    await tester.pump();
+
+    expect(find.text("__1__"), findsOneWidget);
   });
 }

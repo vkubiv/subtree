@@ -18,7 +18,7 @@ class HomeController extends SubtreeController implements HomeActions {
     try {
       state.userProfile.value = await userService.getMyProfile();
     } catch(e) {
-      state.errorMessage.value = e.toString();
+      state.errorEvent.emit(e.toString());
     }
   }
 

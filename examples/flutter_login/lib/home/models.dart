@@ -3,7 +3,7 @@ import 'package:subtree/state.dart';
 
 class HomeState {
   final userProfile = Rx<UserProfile?>(null);
-  final errorMessage = Rx<String?>(null);
+  final errorEvent = RxEvent<String>();
 }
 
 abstract class HomeActions {

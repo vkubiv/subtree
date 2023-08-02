@@ -13,17 +13,14 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = context.getState<LoginState>();
 
-    return ValueListenableBuilder(
-      valueListenable: state.status,
-      builder: (context, status, child) {
-        if (status.isFailure) {
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              const SnackBar(content: Text('Authentication Failure')),
-            );
-        }
-        return child!;
+    return EventListener(
+      event: state.errorEvent,
+      listener: (context, errorMessage) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(content: Text(errorMessage)),
+          );
       },
       child: Align(
         alignment: const Alignment(0, -1 / 3),
