@@ -1,9 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:subtree/state.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:subtree/subtree.dart';
-import 'model_container_test.mocks.dart';
 
 class TestState {
   final val1 = Rx<String>("");
@@ -17,7 +15,10 @@ class NumberFormatter {
   String fancyFormat(int value) => "__${value}__";
 }
 
-@GenerateMocks([TestActions])
+class MockTestActions extends Mock implements TestActions {
+
+}
+
 void main() {
   test("subtree model container success", () {
     final subtreeModel = SubtreeModelContainer();
@@ -33,7 +34,7 @@ void main() {
     expect(subtreeModel.getState<TestState>().val1.value, "10");
 
     subtreeModel.getActions<TestActions>().doAction();
-    verify(actions.doAction()).called(1);
+    verify(() => actions.doAction()).called(1);
 
     expect(subtreeModel.getTransformer<NumberFormatter>().fancyFormat(10), "__10__");
   });

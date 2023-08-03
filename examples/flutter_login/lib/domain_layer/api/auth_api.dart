@@ -29,20 +29,19 @@ class AuthApi {
       if (password == 'fail') {
         throw InvalidCredentials();
       }
-      return LoginResponse(token: '__demo__', userId: Uuid().v4());
+      return LoginResponse(token: '__demo__', userId: const Uuid().v4());
     }
 
     try {
       final response =
           await _apiTransport.createHttpClient().post('/login', data: {'userName': login, 'password': password});
 
-      print("response.data: ${response.data}");
       return LoginResponse(userId: response.data['id'].toString(), token: response.data['token'].toString());
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         throw InvalidCredentials();
       }
-      throw e;
+      rethrow;
     }
   }
 }

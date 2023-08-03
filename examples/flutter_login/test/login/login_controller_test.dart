@@ -38,27 +38,27 @@ void main() {
         final state = controller.state;
 
         controller.usernameChanged('username');
-        expect(state.username.value, Username.dirty('username'));
-        expect(state.password.value, Password.pure());
+        expect(state.username.value, const Username.dirty('username'));
+        expect(state.password.value, const Password.pure());
         expect(state.isValid.value, false);
 
         controller.passwordChanged('password');
-        expect(state.username.value, Username.dirty('username'));
-        expect(state.password.value, Password.dirty('password'));
+        expect(state.username.value, const Username.dirty('username'));
+        expect(state.password.value, const Password.dirty('password'));
         expect(state.isValid.value, true);
 
         controller.loginSubmitted();
 
-        expect(state.username.value, Username.dirty('username'));
-        expect(state.password.value, Password.dirty('password'));
+        expect(state.username.value, const Username.dirty('username'));
+        expect(state.password.value, const Password.dirty('password'));
         expect(state.isValid.value, true);
         expect(state.status.value, FormzSubmissionStatus.inProgress);
 
         loginCompleter.complete();
         await loginCompleter.future;
 
-        expect(state.username.value, Username.dirty('username'));
-        expect(state.password.value, Password.dirty('password'));
+        expect(state.username.value, const Username.dirty('username'));
+        expect(state.password.value, const Password.dirty('password'));
         expect(state.isValid.value, true);
         expect(state.status.value, FormzSubmissionStatus.success);
 
@@ -77,16 +77,16 @@ void main() {
         controller.passwordChanged('password');
         controller.loginSubmitted();
 
-        expect(state.username.value, Username.dirty('username'));
-        expect(state.password.value, Password.dirty('password'));
+        expect(state.username.value, const Username.dirty('username'));
+        expect(state.password.value, const Password.dirty('password'));
         expect(state.isValid.value, true);
         expect(state.status.value, FormzSubmissionStatus.inProgress);
 
         loginCompleter.completeError(InvalidCredentials());
         await loginCompleter.future.catchError((e) {});
 
-        expect(state.username.value, Username.dirty('username'));
-        expect(state.password.value, Password.dirty('password'));
+        expect(state.username.value, const Username.dirty('username'));
+        expect(state.password.value, const Password.dirty('password'));
         expect(state.isValid.value, true);
         expect(state.status.value, FormzSubmissionStatus.failure);
         expect(state.errorEvent.value, isNot(null));

@@ -4,9 +4,7 @@ import 'package:flutter_login/domain_layer/auth_service.dart';
 import 'package:flutter_login/domain_layer/model/user_profile.dart';
 import 'package:flutter_login/domain_layer/user_service.dart';
 import 'package:flutter_login/home/home_controller.dart';
-import 'package:flutter_login/login/login.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:formz/formz.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockUserService extends Mock implements UserService {}

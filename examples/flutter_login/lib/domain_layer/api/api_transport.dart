@@ -10,5 +10,5 @@ class ApiTransport {
     return Dio(BaseOptions(baseUrl: _baseApiUrl));
   }
 
-  String _baseApiUrl;
+  final String _baseApiUrl;
 }

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_login/domain_layer/api/api_auth_provider.dart';
 import 'package:flutter_login/domain_layer/api/auth_api.dart';
 import 'package:flutter_login/domain_layer/auth_service.dart';
@@ -165,7 +164,8 @@ void main() {
     try {
       await httpClient.get("test url");
       fail("exception not thrown");
-    } on DioException catch (e) {}
+    // ignore: empty_catches
+    } on DioException {}
 
     await Future.delayed(Duration.zero);
     expect(logoutCalled, true);
@@ -202,7 +202,8 @@ void main() {
     try {
       await httpClient.get("test url");
       fail("exception not thrown");
-    } on DioException catch (e) {}
+    // ignore: empty_catches
+    } on DioException {}
 
     await Future.delayed(Duration.zero);
     expect(logoutCalled, false);

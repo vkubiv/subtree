@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
               (ref) {
                 final user = ref.watch(state.userProfile);
                 if (user == null) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 }
 
                 return Column(
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
                   children: <Widget>[
                     Text("First name ${user.firstName}"),
                     Text("Last name ${user.lastName}"),
-                    ElevatedButton(child: const Text('Logout'), onPressed: actions.logout)
+                    ElevatedButton(onPressed: actions.logout, child: const Text('Logout'))
                   ],
                 );
               },

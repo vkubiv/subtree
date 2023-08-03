@@ -20,7 +20,7 @@ class Services {
 }
 
 Future<Services> createServices() async {
-  final baseApiUrl = "https://example.com/";
+  const baseApiUrl = "https://example.com/";
   final apiAuthProvider = ApiAuthProvider();
 
   final api = createApiModule(baseApiUrl: baseApiUrl, apiAuthProvider: apiAuthProvider, demoMode: true);
