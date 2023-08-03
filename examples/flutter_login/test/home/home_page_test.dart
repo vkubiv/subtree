@@ -66,7 +66,6 @@ void main() {
       expect(lastName.data, contains('Doe'));
     });
 
-
     testWidgets('shows SnackBar on initialization error', (tester) async {
       await tester.pumpWidget(
         MaterialApp(

@@ -9,7 +9,8 @@ const _kUserId = 'UserId';
 class AuthDao {
   Future<String?> get authToken async => (await SharedPreferences.getInstance()).getString(_kAuthTokenKey);
 
-  Future<void> setAuthToken(String token) async => (await SharedPreferences.getInstance()).setString(_kAuthTokenKey, token);
+  Future<void> setAuthToken(String token) async =>
+      (await SharedPreferences.getInstance()).setString(_kAuthTokenKey, token);
 
   Future<void> deleteAuthToken() async => (await SharedPreferences.getInstance()).remove(_kAuthTokenKey);
 

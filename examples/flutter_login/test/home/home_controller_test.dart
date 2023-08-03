@@ -54,7 +54,8 @@ void main() {
       expect(controller.state.userProfile.value, null);
       expect(controller.state.errorEvent.value, null);
       getMyProfileCompleter.completeError(Exception('ErrorMessage'));
-      await getMyProfileCompleter.future.catchError((e) => UserProfile(firstName: 'firstName', lastName: 'lastName', userID: 'userID'));
+      await getMyProfileCompleter.future
+          .catchError((e) => UserProfile(firstName: 'firstName', lastName: 'lastName', userID: 'userID'));
 
       expect(controller.state.userProfile.value, null);
       expect(controller.state.errorEvent.value, contains('ErrorMessage'));

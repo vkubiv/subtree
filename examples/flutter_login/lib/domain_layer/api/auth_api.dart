@@ -6,7 +6,6 @@ import 'package:uuid/uuid.dart';
 
 import 'api_transport.dart';
 
-
 class LoginResponse {
   final String token;
   final String userId;
@@ -22,7 +21,9 @@ class AuthApi {
   final ApiTransport _apiTransport;
   final bool _demoMode;
 
-  AuthApi({required ApiTransport apiTransport, required bool demoMode}) : _demoMode = demoMode, _apiTransport = apiTransport;
+  AuthApi({required ApiTransport apiTransport, required bool demoMode})
+      : _demoMode = demoMode,
+        _apiTransport = apiTransport;
 
   Future<LoginResponse> login(String login, String password) async {
     if (_demoMode) {

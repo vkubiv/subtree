@@ -23,7 +23,6 @@ class HomeScreen extends StatelessWidget {
                   )
               ],
             )),
-
       ),
       floatingActionButton: FloatingActionButton(onPressed: actions.goToAddNote, child: const Icon(Icons.add)),
     );

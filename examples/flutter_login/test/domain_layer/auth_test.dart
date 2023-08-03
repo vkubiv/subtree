@@ -164,7 +164,7 @@ void main() {
     try {
       await httpClient.get("test url");
       fail("exception not thrown");
-    // ignore: empty_catches
+      // ignore: empty_catches
     } on DioException {}
 
     await Future.delayed(Duration.zero);
@@ -202,7 +202,7 @@ void main() {
     try {
       await httpClient.get("test url");
       fail("exception not thrown");
-    // ignore: empty_catches
+      // ignore: empty_catches
     } on DioException {}
 
     await Future.delayed(Duration.zero);

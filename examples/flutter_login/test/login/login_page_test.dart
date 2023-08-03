@@ -45,7 +45,7 @@ void main() {
       );
 
       verify(
-            () => actions.usernameChanged(username),
+        () => actions.usernameChanged(username),
       ).called(1);
 
       const password = 'password';
@@ -54,7 +54,7 @@ void main() {
         password,
       );
       verify(
-            () => actions.passwordChanged(password),
+        () => actions.passwordChanged(password),
       ).called(1);
     });
 
@@ -72,7 +72,6 @@ void main() {
       final button = tester.widget<ElevatedButton>(find.byType(ElevatedButton));
       expect(button.enabled, isFalse);
     });
-
 
     testWidgets('loading indicator is shown when status is submission in progress', (tester) async {
       state.status.value = FormzSubmissionStatus.inProgress;
@@ -126,7 +125,7 @@ void main() {
 
     testWidgets('shows SnackBar when status is submission failure', (tester) async {
       await tester.pumpWidget(
-         MaterialApp(
+        MaterialApp(
           home: Scaffold(
             body: SubtreeModelProvider(
               subtreeModel,

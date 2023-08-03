@@ -13,7 +13,9 @@ class AuthService {
     required AuthApi authApi,
     required ApiAuthProvider apiAuthProvider,
     required AuthDao authDao,
-  }) : _authDao = authDao, _apiAuthProvider = apiAuthProvider, _authApi = authApi {
+  })  : _authDao = authDao,
+        _apiAuthProvider = apiAuthProvider,
+        _authApi = authApi {
     _apiAuthProvider.onAuthFailed.listen((event) async {
       logout();
     });
@@ -46,7 +48,6 @@ class AuthService {
     _onLogoutSubject.sink.add(null);
   }
 
-  
   final AuthApi _authApi;
   final ApiAuthProvider _apiAuthProvider;
   final AuthDao _authDao;

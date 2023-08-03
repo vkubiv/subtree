@@ -14,7 +14,7 @@ void main() {
   });
 
   test('token stored', () async {
-    when(() => userApi.getMyProfile()).thenAnswer((_) async{
+    when(() => userApi.getMyProfile()).thenAnswer((_) async {
       return UserProfile(firstName: 'firstName', lastName: 'lastName', userID: 'userID');
     });
 
