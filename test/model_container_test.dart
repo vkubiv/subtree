@@ -15,9 +15,7 @@ class NumberFormatter {
   String fancyFormat(int value) => "__${value}__";
 }
 
-class MockTestActions extends Mock implements TestActions {
-
-}
+class MockTestActions extends Mock implements TestActions {}
 
 void main() {
   test("subtree model container success", () {

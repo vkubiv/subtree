@@ -38,8 +38,8 @@ void main() {
   testWidgets('Subtree async action', (WidgetTester tester) async {
     final controller = TestController();
 
-    await tester
-        .pumpWidget(MaterialApp(home: ControlledSubtree(subtree: const TestingWidget(), controller: (context) => controller)));
+    await tester.pumpWidget(
+        MaterialApp(home: ControlledSubtree(subtree: const TestingWidget(), controller: (context) => controller)));
 
     final btn = find.byWidgetPredicate((widget) => widget is TextButton);
     expect(tester.widget<TextButton>(btn).enabled, true);

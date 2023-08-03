@@ -77,5 +77,6 @@ class RxEvent<T> extends ChangeNotifier implements ValueListenable<T?> {
   }
 
   @override
-  String toString() => throw AssertionError("RxEvent is not supposed to use directly in interpolation, use RxEventListener");
+  String toString() =>
+      throw AssertionError("RxEvent is not supposed to use directly in interpolation, use RxEventListener");
 }

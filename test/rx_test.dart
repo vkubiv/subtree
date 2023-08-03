@@ -121,9 +121,9 @@ void main() {
     expect(listenerCalledCount, 2);
 
     expect(
-            () => rxEvent.toString(),
+        () => rxEvent.toString(),
         throwsA(predicate((e) =>
-        e is AssertionError &&
+            e is AssertionError &&
             e.message == "RxEvent is not supposed to use directly in interpolation, use RxEventListener")));
   });
 }
