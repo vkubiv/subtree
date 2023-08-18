@@ -1,7 +1,11 @@
 name: subtree
-description: A new Flutter package project.
+description: A state manager for those who like BLoC but don't like BLoC verbosity.
 version: 0.1.0
+
 homepage: https://github.com/vkubiv/subtree
+repository: https://github.com/vkubiv/subtree
+issue_tracker: https://github.com/vkubiv/subtree/issues
+
 
 environment:
   sdk: ">=2.17.0 <4.0.0"

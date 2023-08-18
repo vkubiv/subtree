@@ -137,27 +137,30 @@ class CounterScreen extends StatelessWidget {
         appBar: AppBar(title: const Text('Counter')),
         body: Obx((ref) {
           if (!ref.watch(state.loaded)) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
-          return Stack(
-            children: [
-              Column(
-                  children: [
-                    Text(ref.watch(ref.counter.value).toString()),
-                    MaterialButton(
-                      onPressed: actions.incCounter,
-                      child: const Text('+'),
-                    ),
-                    MaterialButton(
-                      onPressed: actions.decCounter,
-                      child: const Text('-'),
-                    )
-                  ]
-              )
-            ],
+          return Stack(children: [
+            Center(
+              child: Column(children: [
+                Text('Counter: ${ref.watch(state.counter)}'),
+                MaterialButton(
+                  onPressed: actions.incCounter,
+                  child: const Text('+'),
+                ),
+                MaterialButton(
+                  onPressed: actions.decCounter,
+                  child: const Text('-'),
+                )
+              ]),
+            ),
             if (ref.watch(state.blocked))
-              BlockingOverlay()
-          );
+              ...[const Opacity(
+                opacity: 0.2,
+                child: ModalBarrier(dismissible: false, color: Colors.black),
+              ),
+                const Center(child: CircularProgressIndicator())
+              ]
+          ]);
         }));
   }
 }
