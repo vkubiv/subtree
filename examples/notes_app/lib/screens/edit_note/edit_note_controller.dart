@@ -34,7 +34,9 @@ class EditNoteController extends SubtreeController implements EditNoteActions {
 
   void init() async {
     if (noteId != null) {
-      await noteService.getNote(noteId!);
+      final note = await noteService.getNote(noteId!);
+      state.titleText.text = note.title;
+      state.contentText.text = note.content;
     }
 
     state.loaded.value = true;

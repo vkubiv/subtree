@@ -8,7 +8,8 @@ class NoteItem {
 }
 
 class HomeState {
-  final noteItems = Rx<List<NoteItem>>([]);
+  final noteItems = RxList<NoteItem>([]);
+  final isLoadingData = Rx(true);
 }
 
 abstract class HomeActions {

@@ -18,13 +18,21 @@ class HomeController extends SubtreeController implements HomeActions {
   @protected
   final HomeRouting routing;
 
-  HomeController({required this.routing, required NoteService noteService, required Listenable refreshOnNotesChange}) {
+  HomeController({required this.routing, required this.noteService, required this.refreshOnNotesChange}) {
     subtreeModel.putState(state);
     subtreeModel.putActions<HomeActions>(this);
+    _init();
+  }
+
+  void _init() async {
+    state.isLoadingData.value = true;
+    await noteService.loadNotes();
 
     sync(() async {
-      state.noteItems.value = (await noteService.getAll()).map((n) => NoteItem(id: n.id, title: n.title)).toList();
+      state.noteItems.value = noteService.getStoredNotes().map((n) => NoteItem(id: n.id, title: n.title)).toList();
     }, [refreshOnNotesChange]);
+
+    state.isLoadingData.value = false;
   }
 
   // Actions
@@ -37,4 +45,9 @@ class HomeController extends SubtreeController implements HomeActions {
   void goToAddNote() {
     routing.goToNoteAdd();
   }
+
+  @protected
+  final NoteService noteService;
+  @protected
+  final Listenable refreshOnNotesChange;
 }

@@ -23,20 +23,20 @@ class _AppWidgetState extends State<AppWidget> {
     return ControlledSubtree(
         subtree: MaterialApp(
           navigatorKey: _navigatorKey,
-          onGenerateRoute: (_) => AppController._splashPageRoute(),
+          onGenerateRoute: (_) => RootController._splashPageRoute(),
         ),
-        controller: (context) => AppController(_navigatorKey, widget.createServices));
+        controller: (context) => RootController(_navigatorKey, widget.createServices));
   }
 }
 
-class AppController extends SubtreeController {
+class RootController extends SubtreeController {
   final GlobalKey<NavigatorState> _navigatorKey;
 
   NavigatorState get _navigator => _navigatorKey.currentState!;
 
   late final Services services;
 
-  AppController(this._navigatorKey, Future<Services> Function() createSrvs) {
+  RootController(this._navigatorKey, Future<Services> Function() createSrvs) {
     _setupApp(createSrvs);
   }
 

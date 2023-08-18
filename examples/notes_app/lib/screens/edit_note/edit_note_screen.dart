@@ -27,7 +27,7 @@ class EditNotePage extends StatelessWidget {
                 minLines: 5,
                 maxLines: 10,
               ),
-              MaterialButton(
+              ElevatedButton(
                 onPressed: ref.disableUntilCompleted(actions.save),
                 child: const Text('Save'),
               )
