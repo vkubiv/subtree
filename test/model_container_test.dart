@@ -27,7 +27,7 @@ void main() {
 
     subtreeModel.putState(testState);
     subtreeModel.putActions<TestActions>(actions);
-    subtreeModel.putTransformer(NumberFormatter());
+    subtreeModel.putIntoSubtree(NumberFormatter());
 
     expect(subtreeModel.getState<TestState>().val1.value, "10");
 
@@ -46,7 +46,7 @@ void main() {
 
     subtreeModel.putState(testState);
     subtreeModel.putActions<TestActions>(actions);
-    subtreeModel.putTransformer(NumberFormatter());
+    subtreeModel.putIntoSubtree(NumberFormatter());
 
     expect(
         () => subtreeModel.putState(testState),
@@ -61,7 +61,7 @@ void main() {
             e.message ==
                 "Subtree view model already contains actions of type TestActions. \n(Did you accidentally to put it twice?")));
     expect(
-        () => subtreeModel.putTransformer(NumberFormatter()),
+        () => subtreeModel.putIntoSubtree(NumberFormatter()),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==

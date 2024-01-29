@@ -21,7 +21,7 @@ class SubtreeModelContainer implements ISubtreeModelContainer {
     _actions.put(actions);
   }
 
-  void putTransformer<T extends Object>(T transformer) {
+  void putIntoSubtree<T extends Object>(T transformer) {
     _transformers.put(transformer);
   }
 
@@ -61,7 +61,7 @@ class SubtreeModelProvider extends InheritedWidget {
     return _guard(context)._dependenciesContainer.getActions<A>();
   }
 
-  static A getTransformer<A extends Object>(BuildContext context) {
+  static A fromSubtree<A extends Object>(BuildContext context) {
     return _guard(context)._dependenciesContainer.getTransformer<A>();
   }
 
@@ -83,5 +83,5 @@ extension SubtreeDependencyBuildContextExtensions on BuildContext {
 
   T getActions<T extends Object>() => SubtreeModelProvider.getActions<T>(this);
 
-  T getTransformer<T extends Object>() => SubtreeModelProvider.getTransformer<T>(this);
+  T fromSubtree<T extends Object>() => SubtreeModelProvider.fromSubtree<T>(this);  
 }

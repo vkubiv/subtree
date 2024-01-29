@@ -54,12 +54,12 @@ class AppController extends SubtreeController {
     }
   }
 
-  void _onLoggedIn() {
-    _pushAsRoot(_homeRoute());
+  Future<void> _onLoggedIn() {
+    return _pushAsRoot(_homeRoute());
   }
 
-  void _pushAsRoot(Route<void> route) {
-    _navigator.pushAndRemoveUntil<void>(
+  Future<void> _pushAsRoot(Route<void> route) {
+    return _navigator.pushAndRemoveUntil<void>(
       route,
       (route) => false,
     );
