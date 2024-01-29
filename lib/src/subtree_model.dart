@@ -21,8 +21,9 @@ class SubtreeModelContainer implements ISubtreeModelContainer {
     _actions.put(actions);
   }
 
-  void putIntoSubtree<T extends Object>(T transformer) {
-    _transformers.put(transformer);
+  T putIntoSubtree<T extends Object>(T obj) {
+    _transformers.put(obj);
+    return obj;
   }
 
   @override

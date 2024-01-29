@@ -30,7 +30,7 @@ class Rx<T> extends ChangeNotifier implements ValueListenable<T> {
   String toString() => throw AssertionError("Rx is not supposed to use directly in interpolation, use ref.watch()");
 }
 
-class RxList<T> extends ChangeNotifier implements ValueListenable<Iterable<T>> {
+class RxList<T> extends ChangeNotifier implements ValueListenable<List<T>> {
   /// Creates a [RxList].
   RxList(List<T>? defaultVal) {
     _value = defaultVal ?? [];
@@ -47,7 +47,7 @@ class RxList<T> extends ChangeNotifier implements ValueListenable<Iterable<T>> {
   }
 
   @override
-  Iterable<T> get value {
+  List<T> get value {
     return _value;
   }
 
