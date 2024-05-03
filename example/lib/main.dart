@@ -98,13 +98,13 @@ class CounterScreen extends StatelessWidget {
                 )
               ]),
             ),
-            if (ref.watch(state.blocked))
-              ...[const Opacity(
+            if (ref.watch(state.blocked)) ...[
+              const Opacity(
                 opacity: 0.2,
                 child: ModalBarrier(dismissible: false, color: Colors.black),
               ),
               const Center(child: CircularProgressIndicator())
-              ]
+            ]
           ]);
         }));
   }

@@ -1,5 +1,5 @@
 class UnrestrictedContainer {
- T put<T extends Object>(T dep) {
+  T put<T extends Object>(T dep) {
     if (_dependencies[T] != null) {
       throw AssertionError(
           // ignore: missing_whitespace_between_adjacent_strings
