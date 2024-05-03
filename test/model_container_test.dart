@@ -25,16 +25,16 @@ void main() {
 
     testState.val1.value = "10";
 
-    subtreeModel.putState(testState);
-    subtreeModel.putActions<TestActions>(actions);
-    subtreeModel.putIntoSubtree(NumberFormatter());
+    subtreeModel.put(testState);
+    subtreeModel.put<TestActions>(actions);
+    subtreeModel.put(NumberFormatter());
 
-    expect(subtreeModel.getState<TestState>().val1.value, "10");
+    expect(subtreeModel.subtreeGet<TestState>().val1.value, "10");
 
-    subtreeModel.getActions<TestActions>().doAction();
+    subtreeModel.subtreeGet<TestActions>().doAction();
     verify(() => actions.doAction()).called(1);
 
-    expect(subtreeModel.getTransformer<NumberFormatter>().fancyFormat(10), "__10__");
+    expect(subtreeModel.subtreeGet<NumberFormatter>().fancyFormat(10), "__10__");
   });
 
   test("subtree model container double put", () {
@@ -44,50 +44,50 @@ void main() {
 
     testState.val1.value = "10";
 
-    subtreeModel.putState(testState);
-    subtreeModel.putActions<TestActions>(actions);
-    subtreeModel.putIntoSubtree(NumberFormatter());
+    subtreeModel.put(testState);
+    subtreeModel.put<TestActions>(actions);
+    subtreeModel.put(NumberFormatter());
 
     expect(
-        () => subtreeModel.putState(testState),
+        () => subtreeModel.put(testState),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
-                "Subtree view model already contains state of type TestState. \n(Did you accidentally to put it twice?")));
+                "Subtree view model already contains TestState type. \n(Did you accidentally to put it twice?")));
     expect(
-        () => subtreeModel.putActions<TestActions>(actions),
+        () => subtreeModel.put<TestActions>(actions),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
-                "Subtree view model already contains actions of type TestActions. \n(Did you accidentally to put it twice?")));
+                "Subtree view model already contains TestActions type. \n(Did you accidentally to put it twice?")));
     expect(
-        () => subtreeModel.putIntoSubtree(NumberFormatter()),
+        () => subtreeModel.put(NumberFormatter()),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
-                "Subtree view model already contains transformers of type NumberFormatter. \n(Did you accidentally to put it twice?")));
+                "Subtree view model already contains NumberFormatter type. \n(Did you accidentally to put it twice?")));
   });
 
   test("subtree model container forgot put", () {
     final subtreeModel = SubtreeModelContainer();
 
     expect(
-        () => subtreeModel.getState<TestState>(),
+        () => subtreeModel.subtreeGet<TestState>(),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
-                "State of type TestState is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
+                "Type TestState is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
     expect(
-        () => subtreeModel.getActions<TestActions>(),
+        () => subtreeModel.subtreeGet<TestActions>(),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
-                "Actions of type TestActions is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
+                "Type TestActions is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
     expect(
-        () => subtreeModel.getTransformer<NumberFormatter>(),
+        () => subtreeModel.subtreeGet<NumberFormatter>(),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
-                "Transformers of type NumberFormatter is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
+                "Type NumberFormatter is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
   });
 }

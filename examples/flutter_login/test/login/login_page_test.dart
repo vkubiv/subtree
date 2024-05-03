@@ -22,8 +22,8 @@ void main() {
       actions = MockLoginActions();
       state = LoginState();
 
-      subtreeModel.putState(state);
-      subtreeModel.putActions<LoginActions>(actions);
+      subtreeModel.put(state);
+      subtreeModel.put<LoginActions>(actions);
     });
 
     testWidgets('username and password changed', (tester) async {

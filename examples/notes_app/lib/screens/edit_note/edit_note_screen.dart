@@ -9,8 +9,8 @@ class EditNotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.getState<EditNoteState>();
-    final actions = context.getActions<EditNoteActions>();
+    final state = context.subtreeGet<EditNoteState>();
+    final actions = context.subtreeGet<EditNoteActions>();
 
     return Scaffold(
         appBar: AppBar(title: const Text('Home')),

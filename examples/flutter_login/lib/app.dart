@@ -12,10 +12,10 @@ class AppWidget extends StatefulWidget {
   const AppWidget({super.key, required this.createServices});
 
   @override
-  State<AppWidget> createState() => _AppWidgetState();
+  State<AppWidget> createState() => _AppWidsubtreeGet();
 }
 
-class _AppWidgetState extends State<AppWidget> {
+class _AppWidsubtreeGet extends State<AppWidget> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   @override

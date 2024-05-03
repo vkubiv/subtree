@@ -19,8 +19,8 @@ class HomeController extends SubtreeController implements HomeActions {
   final HomeRouting routing;
 
   HomeController({required this.routing, required NoteService noteService, required Listenable refreshOnNotesChange}) {
-    subtreeModel.putState(state);
-    subtreeModel.putActions<HomeActions>(this);
+    subtreeModel.put(state);
+    subtreeModel.put<HomeActions>(this);
 
     sync(() async {
       state.noteItems.value = (await noteService.getAll()).map((n) => NoteItem(id: n.id, title: n.title)).toList();

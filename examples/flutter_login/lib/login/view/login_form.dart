@@ -11,7 +11,7 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.getState<LoginState>();
+    final state = context.subtreeGet<LoginState>();
 
     return EventListener(
       event: state.errorEvent,
@@ -42,8 +42,8 @@ class LoginForm extends StatelessWidget {
 class _UsernameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final state = context.getState<LoginState>();
-    final actions = context.getActions<LoginActions>();
+    final state = context.subtreeGet<LoginState>();
+    final actions = context.subtreeGet<LoginActions>();
 
     return Obx(
       (ref) {
@@ -63,8 +63,8 @@ class _UsernameInput extends StatelessWidget {
 class _PasswordInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final state = context.getState<LoginState>();
-    final actions = context.getActions<LoginActions>();
+    final state = context.subtreeGet<LoginState>();
+    final actions = context.subtreeGet<LoginActions>();
 
     return Obx(
       (ref) {
@@ -85,8 +85,8 @@ class _PasswordInput extends StatelessWidget {
 class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final state = context.getState<LoginState>();
-    final actions = context.getActions<LoginActions>();
+    final state = context.subtreeGet<LoginState>();
+    final actions = context.subtreeGet<LoginActions>();
 
     return Obx(
       (ref) {

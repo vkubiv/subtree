@@ -1,11 +1,9 @@
 class UnrestrictedContainer {
-  UnrestrictedContainer(this._dependencyClass);
-
-  T put<T extends Object>(T dep) {
+ T put<T extends Object>(T dep) {
     if (_dependencies[T] != null) {
       throw AssertionError(
           // ignore: missing_whitespace_between_adjacent_strings
-          'Subtree view model already contains ${_dependencyClass.toLowerCase()} of type ${T.toString()}. '
+          'Subtree view model already contains ${T.toString()} type. '
           '\n(Did you accidentally to put it twice?');
     }
 
@@ -18,7 +16,7 @@ class UnrestrictedContainer {
     if (dep == null) {
       throw AssertionError(
           // ignore: missing_whitespace_between_adjacent_strings
-          '$_dependencyClass of type ${T.toString()} is not found in subtree view model. '
+          'Type ${T.toString()} is not found in subtree view model. '
           '\n(Did you forget to put it in subtree controller?');
     }
 
@@ -26,5 +24,4 @@ class UnrestrictedContainer {
   }
 
   final Map<Type, Object> _dependencies = {};
-  final String _dependencyClass;
 }

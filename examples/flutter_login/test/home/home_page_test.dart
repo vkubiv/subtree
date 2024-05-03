@@ -21,8 +21,8 @@ void main() {
       actions = MockHomeActions();
       state = HomeState();
 
-      subtreeModel.putState(state);
-      subtreeModel.putActions<HomeActions>(actions);
+      subtreeModel.put(state);
+      subtreeModel.put<HomeActions>(actions);
     });
 
     testWidgets('loading indicator is shown', (tester) async {

@@ -21,20 +21,20 @@ class TestingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actions = context.getActions<TestActions>();
-    final state = context.getState<TestState>();
-    final formatter = context.fromSubtree<Formatter>();
+    final actions = context.subtreeGet<TestActions>();
+    final state = context.subtreeGet<TestState>();
+    final formatter = context.subtreeGet<Formatter>();
     return TextButton(
         onPressed: actions.clickButton, child: Obx((ref) => Text(formatter.fancyFormat(ref.watch(state.testVal)))));
   }
 }
 
-class TestingWidgetStateObx extends StatelessWidget {
-  const TestingWidgetStateObx({Key? key}) : super(key: key);
+class TestingWidsubtreeGetObx extends StatelessWidget {
+  const TestingWidsubtreeGetObx({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final formatter = context.fromSubtree<Formatter>();
+    final formatter = context.subtreeGet<Formatter>();
     return StateObx<TestState>((state, ref) => Text(formatter.fancyFormat(ref.watch(state.testVal))));
   }
 }
@@ -44,9 +44,9 @@ class TestController extends SubtreeController implements TestActions {
   final state = TestState();
 
   TestController() {
-    subtreeModel.putState(state);
-    subtreeModel.putActions<TestActions>(this);
-    subtreeModel.putIntoSubtree(Formatter());
+    subtreeModel.put(state);
+    subtreeModel.put<TestActions>(this);
+    subtreeModel.put(Formatter());
   }
 
   void updateState() {
@@ -64,9 +64,9 @@ class TestControllerWithArgs extends SubtreeController implements TestActions {
   final state = TestState();
 
   TestControllerWithArgs(String arg) {
-    subtreeModel.putState(state);
-    subtreeModel.putActions<TestActions>(this);
-    subtreeModel.putIntoSubtree(Formatter());
+    subtreeModel.put(state);
+    subtreeModel.put<TestActions>(this);
+    subtreeModel.put(Formatter());
 
     state.testVal.value = arg;
   }
@@ -117,7 +117,7 @@ void main() {
         home: ValueListenableBuilder<String>(
             valueListenable: idSwitcher,
             builder: (context, id, child) => ControlledSubtree(
-                  subtree: const TestingWidgetStateObx(),
+                  subtree: const TestingWidsubtreeGetObx(),
                   controller: (context) => TestControllerWithArgs(id),
                   deps: [id],
                 ))));
@@ -138,7 +138,7 @@ void main() {
         home: ValueListenableBuilder<String>(
             valueListenable: idSwitcher,
             builder: (context, id, child) => ControlledSubtree(
-                  subtree: const TestingWidgetStateObx(),
+                  subtree: const TestingWidsubtreeGetObx(),
                   controller: (context) => TestControllerWithArgs(id),
                   deps: const [],
                 ))));

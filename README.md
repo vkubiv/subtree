@@ -23,8 +23,8 @@ abstract class ExamplePageActions {
 // .....
 
 void build(BuildContext context) {
-  final state = context.getState<ExamplePageState>(); // getting subtree state
-  final actions = context.getState<ExamplePageActions>();
+  final state = context.subtreeGet<ExamplePageState>(); // getting subtree state
+  final actions = context.subtreeGet<ExamplePageActions>();
 
   // watch on state.title change with ref.watch function.
   return Obx((ref) =>
@@ -47,7 +47,7 @@ class ExamplePageState {
 }
 
 void build(BuildContext context) {
-  final state = context.getState<ExamplePageState>();
+  final state = context.subtreeGet<ExamplePageState>();
 
   return StreamBuilder<String>(
       stream: state.title,
@@ -97,7 +97,7 @@ class CounterController extends SubtreeController implements CounterActions {
 
   CounterController({required this.counterAPI}) {
     subtreeModel.putState(state);
-    subtreeModel.putActions<CounterActions>(this);
+    subtreeModel.put<CounterActions>(this);
     loadData();
   }
 
@@ -130,8 +130,8 @@ class CounterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.getState<CounterState>();
-    final actions = context.getActions<CounterActions>();
+    final state = context.subtreeGet<CounterState>();
+    final actions = context.subtreeGet<CounterActions>();
 
     return Scaffold(
         appBar: AppBar(title: const Text('Counter')),

@@ -33,8 +33,8 @@ class CounterController extends SubtreeController implements CounterActions {
   final state = CounterState();
 
   CounterController({required this.counterAPI}) {
-    subtreeModel.putState(state);
-    subtreeModel.putActions<CounterActions>(this);
+    subtreeModel.put(state);
+    subtreeModel.put<CounterActions>(this);
     loadData();
   }
 
@@ -75,8 +75,8 @@ class CounterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.getState<CounterState>();
-    final actions = context.getActions<CounterActions>();
+    final state = context.subtreeGet<CounterState>();
+    final actions = context.subtreeGet<CounterActions>();
 
     return Scaffold(
         appBar: AppBar(title: const Text('Counter')),

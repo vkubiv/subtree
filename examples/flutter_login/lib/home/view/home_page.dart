@@ -8,8 +8,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.getState<HomeState>();
-    final actions = context.getActions<HomeActions>();
+    final state = context.subtreeGet<HomeState>();
+    final actions = context.subtreeGet<HomeActions>();
 
     return Scaffold(
         appBar: AppBar(title: const Text('Home'), actions: [

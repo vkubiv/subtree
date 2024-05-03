@@ -4,46 +4,21 @@ import 'container.dart';
 
 // Maybe name it SubtreeViewModel
 abstract class ISubtreeModelContainer {
-  S getState<S extends Object>();
-
-  A getActions<A extends Object>();
-
-  A getTransformer<A extends Object>();
+  S subtreeGet<S extends Object>();
 }
 
 class SubtreeModelContainer implements ISubtreeModelContainer {
-  S putState<S extends Object>(S state) {
-    _states.put(state);
+  S put<S extends Object>(S state) {
+    _containers.put(state);
     return state;
   }
 
-  void putActions<A extends Object>(A actions) {
-    _actions.put(actions);
-  }
-
-  T putIntoSubtree<T extends Object>(T obj) {
-    _transformers.put(obj);
-    return obj;
-  }
-
   @override
-  S getState<S extends Object>() {
-    return _states.get<S>();
+  S subtreeGet<S extends Object>() {
+    return _containers.get<S>();
   }
 
-  @override
-  A getActions<A extends Object>() {
-    return _actions.get<A>();
-  }
-
-  @override
-  A getTransformer<A extends Object>() {
-    return _transformers.get<A>();
-  }
-
-  final _states = UnrestrictedContainer("State");
-  final _actions = UnrestrictedContainer("Actions");
-  final _transformers = UnrestrictedContainer("Transformers");
+  final _containers = UnrestrictedContainer();
 }
 
 class SubtreeModelProvider extends InheritedWidget {
@@ -54,16 +29,8 @@ class SubtreeModelProvider extends InheritedWidget {
     return _dependenciesContainer != oldWidget._dependenciesContainer;
   }
 
-  static S getState<S extends Object>(BuildContext context) {
-    return _guard(context)._dependenciesContainer.getState<S>();
-  }
-
-  static A getActions<A extends Object>(BuildContext context) {
-    return _guard(context)._dependenciesContainer.getActions<A>();
-  }
-
-  static A fromSubtree<A extends Object>(BuildContext context) {
-    return _guard(context)._dependenciesContainer.getTransformer<A>();
+  static S subtreeGet<S extends Object>(BuildContext context) {
+    return _guard(context)._dependenciesContainer.subtreeGet<S>();
   }
 
   static SubtreeModelProvider _guard(BuildContext context) {
@@ -80,9 +47,5 @@ class SubtreeModelProvider extends InheritedWidget {
 }
 
 extension SubtreeDependencyBuildContextExtensions on BuildContext {
-  T getState<T extends Object>() => SubtreeModelProvider.getState<T>(this);
-
-  T getActions<T extends Object>() => SubtreeModelProvider.getActions<T>(this);
-
-  T fromSubtree<T extends Object>() => SubtreeModelProvider.fromSubtree<T>(this);  
+  T subtreeGet<T extends Object>() => SubtreeModelProvider.subtreeGet<T>(this);
 }

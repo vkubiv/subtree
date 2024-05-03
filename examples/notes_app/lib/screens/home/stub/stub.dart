@@ -8,8 +8,8 @@ void main() async {
   final stubState = HomeState();
   stubState.noteItems.value = [NoteItem(id: "1", title: "title")];
   final actions = _HomeStubActions();
-  subtreeModel.putState(stubState);
-  subtreeModel.putActions<HomeActions>(actions);
+  subtreeModel.put(stubState);
+  subtreeModel.put<HomeActions>(actions);
 
   runApp(StubRootWidget(
     testingWidget: SubtreeModelProvider(subtreeModel, child: const HomeScreen()),

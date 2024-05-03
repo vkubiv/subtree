@@ -4,5 +4,5 @@ Initial Version of the library.
 
 # 0.2.0
 
-Change getTransformer to more universal fromSubtree, now it should be used instead getState and getActions
-Change putTransformer to more universal putIntoSubtree now it should be used instead putState and putActions
+Change subtreeGet to more universal subtreeGet, now it should be used instead subtreeGet and subtreeGet
+Change putTransformer to more universal put now it should be used instead putState and put

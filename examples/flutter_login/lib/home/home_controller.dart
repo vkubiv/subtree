@@ -9,8 +9,8 @@ class HomeController extends SubtreeController implements HomeActions {
   final state = HomeState();
 
   HomeController({required this.userService, required this.authService}) {
-    subtreeModel.putState(state);
-    subtreeModel.putActions<HomeActions>(this);
+    subtreeModel.put(state);
+    subtreeModel.put<HomeActions>(this);
     loadUser();
   }
 
