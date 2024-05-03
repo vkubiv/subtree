@@ -9,14 +9,10 @@ on:
       - main
     paths-ignore:
       - "**.md"
-  schedule:
-    # runs the CI everyday at 10AM
-    - cron: "0 10 * * *"
 
 jobs:
   flutter:
     runs-on: ubuntu-latest
-
 
     steps:
       - uses: actions/checkout@v3
