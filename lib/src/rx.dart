@@ -32,17 +32,15 @@ class Rx<T> extends ChangeNotifier implements ValueListenable<T> {
 
 class RxList<T> extends ChangeNotifier implements ValueListenable<List<T>> {
   /// Creates a [RxList].
-  RxList(List<T>? defaultVal) {
-    _value = defaultVal ?? [];
-  }
+  RxList([this._value = const []]);
 
-  late List<T> _value;
+  List<T> _value;
 
   set value(Iterable<T> newValue) {
     if (isIterableEquals(_value, newValue)) {
       return;
     }
-    _value = List.of(newValue);
+    _value = List.unmodifiable(newValue);
     notifyListeners();
   }
 
@@ -51,8 +49,8 @@ class RxList<T> extends ChangeNotifier implements ValueListenable<List<T>> {
     return _value;
   }
 
-  void update(void Function(List<T> value) updateFn) {
-    updateFn(_value);
+  void update(Iterable<T> Function(Iterable<T> value) updateFn) {
+    _value = List.unmodifiable(updateFn(_value));
     notifyListeners();
   }
 

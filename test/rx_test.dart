@@ -82,7 +82,7 @@ void main() {
     expect(listenerCalledCount, 1);
 
     rx.update((obj) {
-      obj[0] = '2';
+      return ['2'];
     });
     expect(rx.value, ['2']);
     expect(listenerCalledCount, 2);
@@ -92,6 +92,13 @@ void main() {
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message == "RxList is not supposed to use directly in interpolation, use ref.watch()")));
+
+    expect(
+        () => rx.value[0] = '3',
+        throwsA(predicate(
+            (e) =>
+            e is UnsupportedError && e.message == 'Cannot modify an unmodifiable list'
+        )));
   });
 
   test("RxEvent success", () {
