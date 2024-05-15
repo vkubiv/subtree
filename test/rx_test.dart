@@ -93,12 +93,8 @@ void main() {
             e is AssertionError &&
             e.message == "RxList is not supposed to use directly in interpolation, use ref.watch()")));
 
-    expect(
-        () => rx.value[0] = '3',
-        throwsA(predicate(
-            (e) =>
-            e is UnsupportedError && e.message == 'Cannot modify an unmodifiable list'
-        )));
+    expect(() => rx.value[0] = '3',
+        throwsA(predicate((e) => e is UnsupportedError && e.message == 'Cannot modify an unmodifiable list')));
   });
 
   test("RxEvent success", () {
