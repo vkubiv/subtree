@@ -1,6 +1,6 @@
 name: subtree
 description: A state manager for those who like BLoC but don't like BLoC verbosity.
-version: 0.4.0
+version: 0.5.0
 
 homepage: https://github.com/vkubiv/subtree
 repository: https://github.com/vkubiv/subtree

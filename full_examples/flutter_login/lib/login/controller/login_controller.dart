@@ -15,8 +15,8 @@ class LoginController extends SubtreeController implements LoginActions {
     required this.authService,
     required this.onLoggedIn,
   }) {
-    subtreeModel.put(state);
-    subtreeModel.put<LoginActions>(this);
+    subtree.put(state);
+    subtree.put<LoginActions>(this);
   }
 
   @override

@@ -21,9 +21,9 @@ class TestingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actions = context.subtreeGet<TestActions>();
-    final state = context.subtreeGet<TestState>();
-    final formatter = context.subtreeGet<Formatter>();
+    final actions = context.get<TestActions>();
+    final state = context.get<TestState>();
+    final formatter = context.get<Formatter>();
     return TextButton(
         onPressed: actions.clickButton, child: Obx((ref) => Text(formatter.fancyFormat(ref.watch(state.testVal)))));
   }
@@ -34,7 +34,7 @@ class TestingWidsubtreeGetObx extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formatter = context.subtreeGet<Formatter>();
+    final formatter = context.get<Formatter>();
     return StateObx<TestState>((state, ref) => Text(formatter.fancyFormat(ref.watch(state.testVal))));
   }
 }
@@ -44,9 +44,9 @@ class TestController extends SubtreeController implements TestActions {
   final state = TestState();
 
   TestController() {
-    subtreeModel.put(state);
-    subtreeModel.put<TestActions>(this);
-    subtreeModel.put(Formatter());
+    subtree.put(state);
+    subtree.put<TestActions>(this);
+    subtree.put(Formatter());
   }
 
   void updateState() {
@@ -64,9 +64,9 @@ class TestControllerWithArgs extends SubtreeController implements TestActions {
   final state = TestState();
 
   TestControllerWithArgs(String arg) {
-    subtreeModel.put(state);
-    subtreeModel.put<TestActions>(this);
-    subtreeModel.put(Formatter());
+    subtree.put(state);
+    subtree.put<TestActions>(this);
+    subtree.put(Formatter());
 
     state.testVal.value = arg;
   }

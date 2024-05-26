@@ -26,8 +26,8 @@ class EditNoteController extends SubtreeController implements EditNoteActions {
 
   EditNoteController(
       {required this.noteId, required this.noteService, required this.routing, required this.produceNoteChange}) {
-    subtreeModel.put(state);
-    subtreeModel.put<EditNoteActions>(this);
+    subtree.put(state);
+    subtree.put<EditNoteActions>(this);
 
     init();
   }

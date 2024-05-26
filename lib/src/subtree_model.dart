@@ -4,7 +4,7 @@ import 'container.dart';
 
 // Maybe name it SubtreeViewModel
 abstract class ISubtreeModelContainer {
-  S subtreeGet<S extends Object>();
+  S get<S extends Object>();
 }
 
 class SubtreeModelContainer implements ISubtreeModelContainer {
@@ -14,7 +14,7 @@ class SubtreeModelContainer implements ISubtreeModelContainer {
   }
 
   @override
-  S subtreeGet<S extends Object>() {
+  S get<S extends Object>() {
     return _containers.get<S>();
   }
 
@@ -29,8 +29,8 @@ class SubtreeModelProvider extends InheritedWidget {
     return _dependenciesContainer != oldWidget._dependenciesContainer;
   }
 
-  static S subtreeGet<S extends Object>(BuildContext context) {
-    return _guard(context)._dependenciesContainer.subtreeGet<S>();
+  static S get<S extends Object>(BuildContext context) {
+    return _guard(context)._dependenciesContainer.get<S>();
   }
 
   static SubtreeModelProvider _guard(BuildContext context) {
@@ -47,5 +47,5 @@ class SubtreeModelProvider extends InheritedWidget {
 }
 
 extension SubtreeDependencyBuildContextExtensions on BuildContext {
-  T subtreeGet<T extends Object>() => SubtreeModelProvider.subtreeGet<T>(this);
+  T get<T extends Object>() => SubtreeModelProvider.get<T>(this);
 }

@@ -12,7 +12,7 @@ class TestingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.subtreeGet<TestState>();
+    final state = context.get<TestState>();
 
     return Obx((ref) => Text(ref.watch(state.testVal)));
   }
@@ -28,7 +28,7 @@ class TestController extends SubtreeController {
   final state = TestState();
 
   TestController({required Listenable refreshOnChange, required ValueProvider valueProvider}) {
-    subtreeModel.put(state);
+    subtree.put(state);
 
     subscribe(() {
       state.testVal.value = valueProvider.value;

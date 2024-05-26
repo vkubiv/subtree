@@ -5,7 +5,7 @@ import 'controller_notifier.dart';
 import 'util.dart';
 
 abstract class SubtreeController {
-  final subtreeModel = SubtreeModelContainer();
+  final subtree = SubtreeModelContainer();
 
   @mustCallSuper
   void dispose() {
@@ -73,7 +73,7 @@ class _ControlledSubtreeState extends State<ControlledSubtree> {
 
   @override
   Widget build(BuildContext context) {
-    return SubtreeModelProvider(_controller!.subtreeModel, key: _rootKey, child: widget.subtree);
+    return SubtreeModelProvider(_controller!.subtree, key: _rootKey, child: widget.subtree);
   }
 }
 

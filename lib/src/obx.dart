@@ -87,7 +87,7 @@ class StateObx<State extends Object> extends ObxWidget {
   const StateObx(this._builder, {super.key});
 
   @override
-  Widget build(BuildContext context, ReactiveBlockRefExt ref) => _builder(context.subtreeGet<State>(), ref);
+  Widget build(BuildContext context, ReactiveBlockRefExt ref) => _builder(context.get<State>(), ref);
 }
 
 class EventListener<T extends Object> extends StatefulWidget {

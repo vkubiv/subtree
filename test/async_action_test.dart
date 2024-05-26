@@ -15,7 +15,7 @@ class TestingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final actions = context.subtreeGet<TestActions>();
+    final actions = context.get<TestActions>();
     return Obx((ref) =>
         TextButton(onPressed: ref.disableUntilCompleted(actions.asyncOperation), child: const Text("Test text")));
   }
@@ -23,7 +23,7 @@ class TestingWidget extends StatelessWidget {
 
 class TestController extends SubtreeController implements TestActions {
   TestController() {
-    subtreeModel.put<TestActions>(this);
+    subtree.put<TestActions>(this);
   }
 
   @override

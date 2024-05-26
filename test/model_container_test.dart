@@ -29,12 +29,12 @@ void main() {
     subtreeModel.put<TestActions>(actions);
     subtreeModel.put(NumberFormatter());
 
-    expect(subtreeModel.subtreeGet<TestState>().val1.value, "10");
+    expect(subtreeModel.get<TestState>().val1.value, "10");
 
-    subtreeModel.subtreeGet<TestActions>().doAction();
+    subtreeModel.get<TestActions>().doAction();
     verify(() => actions.doAction()).called(1);
 
-    expect(subtreeModel.subtreeGet<NumberFormatter>().fancyFormat(10), "__10__");
+    expect(subtreeModel.get<NumberFormatter>().fancyFormat(10), "__10__");
   });
 
   test("subtree model container double put", () {
@@ -72,19 +72,19 @@ void main() {
     final subtreeModel = SubtreeModelContainer();
 
     expect(
-        () => subtreeModel.subtreeGet<TestState>(),
+        () => subtreeModel.get<TestState>(),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
                 "Type TestState is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
     expect(
-        () => subtreeModel.subtreeGet<TestActions>(),
+        () => subtreeModel.get<TestActions>(),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
                 "Type TestActions is not found in subtree view model. \n(Did you forget to put it in subtree controller?")));
     expect(
-        () => subtreeModel.subtreeGet<NumberFormatter>(),
+        () => subtreeModel.get<NumberFormatter>(),
         throwsA(predicate((e) =>
             e is AssertionError &&
             e.message ==
