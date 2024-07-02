@@ -1,3 +1,14 @@
+# 0.5.1
+Now sync function returns FutureOr<void> so a caller can await for an inner function to finish
+
+### Example:
+```dart
+    await sync(() async {
+      final someData = await api.loadData();
+      ...
+    }, []);
+```
+
 # 0.5.0
 
 BREAKING CHANGE:

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 
 import 'subtree_model.dart';
@@ -14,8 +16,8 @@ abstract class SubtreeController {
     }
   }
 
-  void sync(void Function() syncFunc, List<Listenable> on) {
-    final sub = _sync(syncFunc, on);
+  FutureOr<void> sync(FutureOr<void> Function() syncFunc, List<Listenable> on) async {
+    final sub = await _sync(syncFunc, on);
     _subscriptions.add(sub);
   }
 
@@ -77,11 +79,11 @@ class _ControlledSubtreeState extends State<ControlledSubtree> {
   }
 }
 
-ControllerSubscription _sync(void Function() syncFunc, List<Listenable> on) {
+FutureOr<ControllerSubscription> _sync(FutureOr<void> Function() syncFunc, List<Listenable> on) async {
   for (final deps in on) {
     deps.addListener(syncFunc);
   }
-  syncFunc();
+  await syncFunc();
 
   return ControllerSubscription(syncFunc, on);
 }
