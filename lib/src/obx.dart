@@ -90,7 +90,7 @@ class StateObx<State extends Object> extends ObxWidget {
   Widget build(BuildContext context, ReactiveBlockRefExt ref) => _builder(context.get<State>(), ref);
 }
 
-class EventListener<T extends Object> extends StatefulWidget {
+class EventListener<T> extends StatefulWidget {
   const EventListener({
     Key? key,
     required this.event,
@@ -106,7 +106,7 @@ class EventListener<T extends Object> extends StatefulWidget {
   State<EventListener> createState() => _EventListenerState<T>();
 }
 
-class _EventListenerState<T extends Object> extends State<EventListener<T>> {
+class _EventListenerState<T> extends State<EventListener<T>> {
   void _onEvent() {
     widget.listener(context, widget.event.value!);
   }

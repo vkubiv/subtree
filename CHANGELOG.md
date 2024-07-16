@@ -1,3 +1,6 @@
+# 0.5.2
+Ease type restriction on EventListener generic parameter T
+
 # 0.5.1
 Now sync function returns FutureOr<void> so a caller can await for an inner function to finish
 
