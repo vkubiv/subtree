@@ -1,3 +1,6 @@
+# 0.6.0
+Split SubtreeController into SubtreeController and BaseController
+
 # 0.5.2
 Ease type restriction on EventListener generic parameter T
 

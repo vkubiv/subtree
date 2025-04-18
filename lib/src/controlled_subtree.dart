@@ -6,9 +6,7 @@ import 'subtree_model.dart';
 import 'controller_notifier.dart';
 import 'util.dart';
 
-abstract class SubtreeController {
-  final subtree = SubtreeModelContainer();
-
+abstract class BaseController {
   @mustCallSuper
   void dispose() {
     for (final sub in _subscriptions) {
@@ -27,6 +25,10 @@ abstract class SubtreeController {
   }
 
   final _subscriptions = <ControllerSubscription>[];
+}
+
+abstract class SubtreeController extends BaseController {
+  final subtree = SubtreeModelContainer();
 }
 
 typedef SubtreeControllerBuilder = SubtreeController Function(BuildContext context);
