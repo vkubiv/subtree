@@ -108,7 +108,7 @@ class EventListener<T> extends StatefulWidget {
 
 class _EventListenerState<T> extends State<EventListener<T>> {
   void _onEvent() {
-    widget.listener(context, widget.event.value!);
+    widget.listener(context, widget.event.value as T);
   }
 
   @override
